@@ -9,12 +9,19 @@ public class StringResourceItem {
     private String translatedText;
 
     public StringResourceItem(String key) {
-        this(key, null);
+        this(key, null, null);
     }
 
     public StringResourceItem(String key, String originalText) {
+        this(key, originalText, null);
+    }
+
+    public StringResourceItem(String key, String originalText, String translatedText) {
+        checkValidKey(key);
+
         this.key = key;
         this.originalText = originalText;
+        this.translatedText = translatedText;
     }
 
     public String getKey() {
@@ -35,5 +42,11 @@ public class StringResourceItem {
 
     public void setTranslatedText(String translatedText) {
         this.translatedText = translatedText;
+    }
+
+    public static void checkValidKey(String key) {
+        if (null == key || key.length() < 1) {
+            throw new IllegalArgumentException("The KEY cant be null or empty");
+        }
     }
 }

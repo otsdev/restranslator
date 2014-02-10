@@ -18,12 +18,8 @@ public class StringResources {
         return items.size();
     }
 
-    public boolean containKey(String key) {
-        return (null != getItemByKey(key));
-    }
-
-    public StringResourceItem getItemByKey(String key) {
-        checkValidKey(key);
+    public StringResourceItem getResourceItemByKey(String key) {
+        StringResourceItem.checkValidKey(key);
 
         final int size = getItemsCount();
 
@@ -36,14 +32,94 @@ public class StringResources {
         return null;
     }
 
-    public void addTranslatedText(String key, String translatedText) {
-        checkValidKey(key);
+    public StringResourceItem getResourceItemAt(int position) {
+        if (position < 0 || position >= getItemsCount()) {
+            throw new IllegalArgumentException("Invalid position " + position);
+        }
 
+        return items.get(position);
     }
 
-    public static void checkValidKey(String key) {
-        if (null == key || key.length() < 1) {
-            throw new IllegalArgumentException("The KEY cant be null or empty");
+    public String getItemKeyAt(int position){
+        return getResourceItemAt(position).getKey();
+    }
+
+    public String getItemOriginalTextAt(int position){
+        return getResourceItemAt(position).getOriginalText();
+    }
+
+    public String getItemTranslatedTextAt(int position){
+        return getResourceItemAt(position).getTranslatedText();
+    }
+
+    public void addResourceItem(StringResourceItem resourceItem) {
+        if (null == resourceItem) {
+            throw new IllegalArgumentException("Trying to add a null StringResourceItem");
         }
+
+        final StringResourceItem existResourceItem = getResourceItemByKey(resourceItem.getKey());
+        if (null == existResourceItem) {
+            // new key; add it.
+            items.add(resourceItem);
+        } else {
+            // exist key; replace it.
+            int position = -1;
+            final int size = getItemsCount();
+            for (int i = 0; i < size; i++) {
+                if (existResourceItem == items.get(i)) {
+                    position = i;
+                    break;
+                }
+            }
+
+            if (-1 == position) {
+                throw new IllegalArgumentException("Invalid position, where did the item go!!!");
+            }
+
+            items.set(position, resourceItem);
+        }
+    }
+
+    public StringResourceItem addResourceItem(String key) {
+        return addResourceItem(key, null, null);
+    }
+
+    public StringResourceItem addResourceItem(String key, String originalText) {
+        return addResourceItem(key, originalText, null);
+    }
+
+    public StringResourceItem addResourceItem(String key, String originalText, String translatedText) {
+        StringResourceItem resourceItem = getResourceItemByKey(key);
+        if (null == resourceItem) {
+            resourceItem = new StringResourceItem(key, originalText, translatedText);
+            items.add(resourceItem);
+        } else {
+            resourceItem.setOriginalText(originalText);
+            resourceItem.setTranslatedText(translatedText);
+        }
+
+        return resourceItem;
+    }
+
+    public void setOriginalText(String key, String originalText) {
+        StringResourceItem resourceItem = getResourceItemByKey(key);
+        if (null == resourceItem) {
+            addResourceItem(key, originalText, null);
+        } else {
+            resourceItem.setOriginalText(originalText);
+        }
+    }
+
+    public void setTranslatedText(String key, String translatedText) {
+        StringResourceItem resourceItem = getResourceItemByKey(key);
+        if (null == resourceItem) {
+            addResourceItem(key, null, translatedText);
+        } else {
+            resourceItem.setTranslatedText(translatedText);
+        }
+    }
+
+    public boolean containKey(String key) {
+        return (null != getResourceItemByKey(key));
     }
 }
