@@ -1,5 +1,6 @@
 package com.ots.restranslator.frames;
 
+import com.ots.restranslator.xml.XmlResourceParser;
 import com.ots.translator.dialogs.OpenFileDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -57,8 +58,8 @@ public class MainFrame extends JFrame {
 
         @Override
         public void onDoneFileSelection(File originalFile, File translateFile) {
-            System.err.println("original file: " + originalFile.getAbsolutePath());
-            System.err.println("translated file: " + translateFile.getAbsolutePath());
+            XmlResourceParser parser = new XmlResourceParser();
+            parser.parse(originalFile);
         }
 
         @Override

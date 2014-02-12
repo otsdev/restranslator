@@ -15,6 +15,8 @@ import java.io.*;
  */
 public class XmlResourceParser {
 
+    private static final String Q_NAME_STRING = "string";
+
     private StringResources mStringResources;
 
     public XmlResourceParser() {
@@ -53,11 +55,18 @@ public class XmlResourceParser {
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
             super.startElement(uri, localName, qName, attributes);
+
+            if(Q_NAME_STRING.equals(qName)){
+                System.out.println("attrib len: " + attributes.getLength());
+
+            }
         }
 
         @Override
         public void characters(char[] ch, int start, int length) throws SAXException {
             super.characters(ch, start, length);
+
+            System.out.println("ch: " + new String(ch, start, length));
         }
 
         @Override
