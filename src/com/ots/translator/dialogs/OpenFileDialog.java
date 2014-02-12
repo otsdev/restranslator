@@ -42,7 +42,7 @@ public class OpenFileDialog extends JFrame {
 
         txtOriginalFile = new JTextField("");
         c = new GridBagConstraints();
-        c.fill = GridBagConstraints.HORIZONTAL;
+        c.fill = GridBagConstraints.BOTH;
         c.anchor = GridBagConstraints.LINE_START;
         c.insets = new Insets(0, 0, 0, 4);
         c.weightx = 0.9;
@@ -73,7 +73,7 @@ public class OpenFileDialog extends JFrame {
 
         txtTranslatedFile = new JTextField("");
         c = new GridBagConstraints();
-        c.fill = GridBagConstraints.HORIZONTAL;
+        c.fill = GridBagConstraints.BOTH;
         c.anchor = GridBagConstraints.LINE_START;
         c.insets = new Insets(0, 0, 0, 4);
         c.weightx = 0.9;
