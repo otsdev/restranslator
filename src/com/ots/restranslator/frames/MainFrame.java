@@ -42,7 +42,7 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.setSize(400, 300);
+                openFileDialog.setSize(500, 140);
                 openFileDialog.setLocationRelativeTo(null);
                 openFileDialog.setVisible(true);
             }
