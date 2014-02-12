@@ -4,6 +4,8 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,7 +20,16 @@ public class OpenFileDialog extends JFrame {
     private JTextField txtOriginalFile, txtTranslatedFile;
     private JButton btnOriginalFile, btnTranslatedFile, btnOk, btnCancel;
 
-    public OpenFileDialog() {
+    public static OpenFileDialog newInstance(JFrame frame) {
+        OpenFileDialog openFileDialog = new OpenFileDialog();
+        openFileDialog.setSize(500, 140);
+        openFileDialog.setResizable(false);
+        openFileDialog.setLocationRelativeTo(frame);
+        return openFileDialog;
+
+    }
+
+    private OpenFileDialog() {
         initComponents();
 
     }
@@ -64,7 +75,7 @@ public class OpenFileDialog extends JFrame {
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.LINE_START;
-        c.insets = new Insets(0, 4, 0, 0);
+        c.insets = new Insets(4, 4, 0, 0);
         c.ipadx = 10;
         c.weightx = 0.02;
         c.gridx = 0;
@@ -75,7 +86,7 @@ public class OpenFileDialog extends JFrame {
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
         c.anchor = GridBagConstraints.LINE_START;
-        c.insets = new Insets(0, 0, 0, 4);
+        c.insets = new Insets(4, 0, 0, 4);
         c.weightx = 0.9;
         c.gridx = 1;
         c.gridy = 1;
@@ -84,7 +95,7 @@ public class OpenFileDialog extends JFrame {
         btnTranslatedFile = new JButton("Browse");
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.insets = new Insets(0, 0, 0, 4);
+        c.insets = new Insets(4, 0, 0, 4);
         c.weightx = 0.08;
         c.gridx = 2;
         c.gridy = 1;
@@ -92,9 +103,11 @@ public class OpenFileDialog extends JFrame {
 
         JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         btnCancel = new JButton("Cancel");
+        btnCancel.addActionListener(generalButtonsHandler);
         jPanel.add(btnCancel);
 
         btnOk = new JButton("Ok");
+        btnOk.addActionListener(generalButtonsHandler);
         jPanel.add(btnOk);
 
         c = new GridBagConstraints();
@@ -107,5 +120,18 @@ public class OpenFileDialog extends JFrame {
         add(jPanel, c);
 
     }
+
+    private ActionListener generalButtonsHandler = new ActionListener() {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Object src = e.getSource();
+            if (src == btnCancel) {
+                setVisible(false);
+            } else if (src == btnOk) {
+
+            }
+        }
+    };
 
 }

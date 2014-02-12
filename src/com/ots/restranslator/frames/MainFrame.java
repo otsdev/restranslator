@@ -10,14 +10,14 @@ import javax.swing.*;
  * Created by jafar on 2/6/14.
  */
 public class MainFrame extends JFrame {
-
+    
     public MainFrame() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
+        
         setJMenuBar(createMenuBar());
-
+        
     }
-
+    
     private JMenuBar createMenuBar() {
         JMenuBar menuBar;
         JMenu menu, submenu;
@@ -36,22 +36,19 @@ public class MainFrame extends JFrame {
         //a group of JMenuItems
         menuItem = new JMenuItem("Open String File",
                 KeyEvent.VK_O);
-
+        
         menuItem.addActionListener(new ActionListener() {
-
+            
             @Override
             public void actionPerformed(ActionEvent e) {
-                OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.setSize(500, 140);
-                openFileDialog.setLocationRelativeTo(null);
-                openFileDialog.setVisible(true);
+                OpenFileDialog.newInstance(MainFrame.this).setVisible(true);
             }
         });
-
+        
         menuItem.setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_O, ActionEvent.ALT_MASK));
         menu.add(menuItem);
-
+        
         return menuBar;
     }
 }
