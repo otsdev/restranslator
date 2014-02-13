@@ -122,4 +122,21 @@ public class StringResources {
     public boolean containKey(String key) {
         return (null != getResourceItemByKey(key));
     }
+
+
+    public String flatten(){
+        final int size = items.size();
+        final StringBuilder builder = new StringBuilder();
+        for(int i=0;i<size;i++){
+            StringResourceItem resourceItem = items.get(i);
+            builder.append(resourceItem.getKey());
+            builder.append(": ");
+            builder.append(resourceItem.getOriginalText());
+            builder.append(" -> ");
+            builder.append(resourceItem.getTranslatedText());
+            builder.append("\n");
+        }
+
+        return builder.toString();
+    }
 }

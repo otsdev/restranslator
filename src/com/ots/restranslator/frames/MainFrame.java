@@ -1,5 +1,6 @@
 package com.ots.restranslator.frames;
 
+import com.ots.restranslator.models.StringResources;
 import com.ots.restranslator.xml.XmlResourceParser;
 import com.ots.translator.dialogs.OpenFileDialog;
 import java.awt.event.ActionEvent;
@@ -59,7 +60,11 @@ public class MainFrame extends JFrame {
         @Override
         public void onDoneFileSelection(File originalFile, File translateFile) {
             XmlResourceParser parser = new XmlResourceParser();
-            parser.parse(originalFile);
+            parser.parse(originalFile, true);
+            parser.parse(translateFile, false);
+
+            StringResources resources = parser.getmStringResources();
+            System.out.print(resources.flatten());
         }
 
         @Override
