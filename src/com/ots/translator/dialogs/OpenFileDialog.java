@@ -23,20 +23,29 @@ public class OpenFileDialog extends JFrame {
     private JTextField txtOriginalFile, txtTranslatedFile;
     private JButton btnOriginalFile, btnTranslatedFile, btnOk, btnCancel;
     private JFileChooser fcOpen;
+    private File mOriginalFile, mTranslatedFile;
+    private OnFilesSelected mOnFileSelected;
 
-    public static OpenFileDialog newInstance(JFrame frame) {
+    public interface OnFilesSelected {
+
+        public void onDoneFileSelection(File originalFile, File translateFile);
+
+        public void onCancelFileSelection();
+
+    }
+
+    public static OpenFileDialog newInstance(JFrame frame, OnFilesSelected onFilesSelected) {
         OpenFileDialog openFileDialog = new OpenFileDialog();
         openFileDialog.setSize(500, 140);
         openFileDialog.setResizable(false);
         openFileDialog.setLocationRelativeTo(frame);
+        openFileDialog.mOnFileSelected = onFilesSelected;
         return openFileDialog;
 
     }
 
     private OpenFileDialog() {
         initComponents();
-
-        test();
 
     }
 
@@ -136,8 +145,17 @@ public class OpenFileDialog extends JFrame {
             Object src = e.getSource();
             if (src == btnCancel) {
                 setVisible(false);
-            } else if (src == btnOk) {
+                if (mOnFileSelected != null) {
+                    mOnFileSelected.onCancelFileSelection();
 
+                }
+            } else if (src == btnOk) {
+                setVisible(false);
+
+                if (mOnFileSelected != null) {
+                    mOnFileSelected.onDoneFileSelection(mOriginalFile, mTranslatedFile);
+
+                }
             } else if (src == btnOriginalFile || src == btnTranslatedFile) {
                 if (fcOpen == null) {
                     fcOpen = new JFileChooser();
@@ -146,6 +164,17 @@ public class OpenFileDialog extends JFrame {
 
                 fcOpen.setFileFilter(new XMLFilter());
                 int returnVal = fcOpen.showDialog(OpenFileDialog.this, "Done");
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    File file = fcOpen.getSelectedFile();
+                    if (src == btnOriginalFile) {
+                        txtOriginalFile.setText(file.getAbsolutePath());
+                        mOriginalFile = file;
+                    } else {
+                        txtTranslatedFile.setText(file.getAbsolutePath());
+                        mTranslatedFile = file;
+
+                    }
+                }
             }
         }
     };
@@ -180,35 +209,10 @@ public class OpenFileDialog extends JFrame {
             }
             return ext;
         }
-//The description of this filter
 
         public String getDescription() {
             return "String resource file";
         }
-    }
-
-    private void test() {
-        String res;
-        String res2;
-        int finalNum = 0;
-
-        for (int i = 100; i <= 999; i++) {
-            for (int j = 100; j < i; j++) {
-                int multi = j * i;
-                res = String.valueOf(multi);
-                res2 = new StringBuilder(res).reverse().toString();
-                if (res.equals(res2)) {
-                    if (multi > finalNum) {
-                        finalNum = multi;
-                    }
-
-                }
-
-            }
-        }
-
-        System.err.println("res: " + finalNum);
-
     }
 
 }
