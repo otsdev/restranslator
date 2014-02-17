@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.IOException;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -89,7 +90,13 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 StringResources stringResources = ((StringResourcesModel) table.getModel()).getStringResources();
-                System.err.println(stringResources.flatten());
+                try {
+                    stringResources.save();
+                } catch (IOException e1) {
+                    //TODO
+                    e1.printStackTrace();
+                }
+                //System.err.println(stringResources.flatten());
 
             }
         });

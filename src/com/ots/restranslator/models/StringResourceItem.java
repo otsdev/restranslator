@@ -49,11 +49,11 @@ public class StringResourceItem {
     }
 
     public String getFormatedOriginalText() {
-        return String.format(Locale.ENGLISH, key, (null != originalText) ? originalText : "");
+        return String.format(Locale.ENGLISH, STRING_RES_FORMAT, key, (null != originalText) ? originalText : "");
     }
 
     public String getFormatedTranslatedText() {
-        return String.format(Locale.ENGLISH, key, (null != translatedText) ? translatedText : "");
+        return String.format(Locale.ENGLISH, STRING_RES_FORMAT, key, (null != translatedText) ? translatedText : "");
     }
 
     public static void checkValidKey(String key) {

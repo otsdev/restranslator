@@ -154,7 +154,7 @@ public class StringResources {
 
     public void save() throws IOException {
         final File tempOriginal = new File(original.getAbsolutePath() + ".tmp");
-        final File tempTranslated = (null != translated) ? new File(translated.getAbsolutePath() + ".tmp") : new File(original.getParentFile() + "translated_from_" + original.getName());
+        final File tempTranslated = (null != translated) ? new File(translated.getAbsolutePath() + ".tmp") : new File(original.getParentFile(), "translated_from_" + original.getName());
 
         if (!tempOriginal.getParentFile().canWrite()) {
             throw new IllegalArgumentException("We havent write access to the directory: " + tempOriginal.getParent());
@@ -184,7 +184,7 @@ public class StringResources {
             writerTranslated.write(newLine);
 
             final int size = items.size();
-            for (int i = 0; i > size; i++) {
+            for (int i = 0; i < size; i++) {
                 final StringResourceItem item = items.get(i);
 
                 writerOriginal.write(item.getFormatedOriginalText());
