@@ -1,24 +1,34 @@
 package com.ots.restranslator.frames;
 
-import com.ots.restranslator.models.StringResourceItem;
+import com.ots.restranslator.customtabel.MultiLineTableCellEditor;
+import com.ots.restranslator.customtabel.MyTable;
 import com.ots.restranslator.models.StringResources;
 import com.ots.restranslator.xml.XmlResourceParser;
 import com.ots.translator.dialogs.OpenFileDialog;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import javax.swing.*;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.KeyStroke;
+import javax.swing.WindowConstants;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumn;
 
 /**
  * Created by jafar on 2/6/14.
  */
 public class MainFrame extends JFrame {
 
-    JTable table;
+    MyTable table;
     public static final String[] COLUMNS_NAMES = {"Key",
         "default",
         "translation"};
@@ -31,7 +41,7 @@ public class MainFrame extends JFrame {
     }
 
     private void initComponents() {
-        table = new JTable();
+        table = new MyTable();
         JScrollPane scrollPane = new JScrollPane(table);
         table.setFillsViewportHeight(true);
 
@@ -78,9 +88,9 @@ public class MainFrame extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                StringResources stringResources = ((StringResourcesModel)table.getModel()).getStringResources();
+                StringResources stringResources = ((StringResourcesModel) table.getModel()).getStringResources();
                 System.err.println(stringResources.flatten());
-                
+
             }
         });
 
@@ -103,6 +113,9 @@ public class MainFrame extends JFrame {
 
             final StringResourcesModel model = new StringResourcesModel(resources);
             table.setModel(model);
+
+            TableColumn column1 = table.getColumn(table.getColumnName(1));
+            column1.setCellEditor(new MultiLineTableCellEditor());
             pack();
 
         }
@@ -143,7 +156,6 @@ public class MainFrame extends JFrame {
         }
 
         public Object getValueAt(int row, int col) {
-            System.err.println("data at: " + col + ", " + row);
 
             switch (col) {
                 case COLUMN_KEY:
@@ -185,6 +197,7 @@ public class MainFrame extends JFrame {
 
             return true;
         }
+
 
         /*
          * Don't need to implement this method unless your table's
