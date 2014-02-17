@@ -1,9 +1,13 @@
 package com.ots.restranslator.models;
 
+import java.util.Locale;
+
 /**
  * Created by jafar on 2/6/14.
  */
 public class StringResourceItem {
+    private static final String STRING_RES_FORMAT = "    <string name=\"%s\">%s</string>";
+
     private String key;
     private String originalText;
     private String translatedText;
@@ -42,6 +46,14 @@ public class StringResourceItem {
 
     public void setTranslatedText(String translatedText) {
         this.translatedText = translatedText;
+    }
+
+    public String getFormatedOriginalText() {
+        return String.format(Locale.ENGLISH, key, (null != originalText) ? originalText : "");
+    }
+
+    public String getFormatedTranslatedText() {
+        return String.format(Locale.ENGLISH, key, (null != translatedText) ? translatedText : "");
     }
 
     public static void checkValidKey(String key) {

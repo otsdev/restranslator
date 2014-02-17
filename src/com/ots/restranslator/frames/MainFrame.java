@@ -109,6 +109,7 @@ public class MainFrame extends JFrame {
             parser.parse(translateFile, false);
 
             StringResources resources = parser.getmStringResources();
+            resources.setFiles(originalFile, translateFile);
 //            System.out.print(resources.flatten());
 
             final StringResourcesModel model = new StringResourcesModel(resources);
